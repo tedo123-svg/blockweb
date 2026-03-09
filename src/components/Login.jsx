@@ -31,16 +31,18 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
-        <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
+    <div className="login-page">
+      <div className="card login-card">
+        <div className="login-card-top">
           <LanguageToggle />
         </div>
-        
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <LogIn size={48} color="#1e40af" style={{ margin: '0 auto 16px' }} />
-          <h2 style={{ color: '#334155', marginBottom: '8px' }}>{t('woreda_reporting_system')}</h2>
-          <p style={{ color: '#64748b' }}>{t('sign_in_to_continue')}</p>
+
+        <div className="login-header">
+          <div className="login-icon">
+            <LogIn size={44} color="var(--primary)" />
+          </div>
+          <h2>{t('woreda_reporting_system')}</h2>
+          <p>{t('sign_in_to_continue')}</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -66,9 +68,9 @@ function Login({ onLogin }) {
             />
           </div>
 
-          {error && <p style={{ color: '#ef4444', marginBottom: '16px' }}>{error}</p>}
+          {error && <p className="login-error">{error}</p>}
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+          <button type="submit" className="btn btn-primary btn-full">
             {t('sign_in')}
           </button>
         </form>
