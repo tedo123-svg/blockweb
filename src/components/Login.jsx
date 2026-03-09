@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LogIn } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageToggle from './LanguageToggle';
+import { API_URL } from '../config/api';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -14,7 +15,7 @@ function Login({ onLogin }) {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

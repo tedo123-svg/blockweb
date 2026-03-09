@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserPlus, Edit2, Trash2, X, Save, Users, CheckCircle, XCircle } from 'lucide-react';
+import { API_URL } from '../config/api';
 
 function UserManagement({ token }) {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,7 @@ function UserManagement({ token }) {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_URL}/api/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -34,8 +35,8 @@ function UserManagement({ token }) {
     
     try {
       const url = editingUser 
-        ? `http://localhost:5000/api/users/${editingUser.id}`
-        : 'http://localhost:5000/api/users';
+        ? `${API_URL}/api/users/${editingUser.id}`
+        : `${API_URL}/api/users`;
       
       const method = editingUser ? 'PUT' : 'POST';
       
@@ -73,7 +74,7 @@ function UserManagement({ token }) {
     if (!confirm('Are you sure you want to delete this user?')) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+      const response = await fetch(`${API_URL}/api/users/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
