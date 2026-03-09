@@ -108,6 +108,9 @@ function SubCityDashboard({ user, token, onLogout }) {
     doc.setFontSize(10);
     doc.text(generatedAt, 40, 58);
 
+    // Ensure autoTable also uses the Ethiopic font when available.
+    doc.setFont('NotoSansEthiopic');
+
     const tableData = reports.map(r => ([
       r.woredaName,
       r.subCity || 'N/A',
@@ -140,6 +143,7 @@ function SubCityDashboard({ user, token, onLogout }) {
       startY: 72,
       margin: { left: 40, right: 40 },
       styles: {
+        font: 'NotoSansEthiopic',
         fontSize: 8,
         cellPadding: 6,
         overflow: 'linebreak',
@@ -158,10 +162,10 @@ function SubCityDashboard({ user, token, onLogout }) {
         4: { cellWidth: 40 },
         5: { cellWidth: 40 },
         6: { cellWidth: 40 },
-        7: { cellWidth: 120 },
-        8: { cellWidth: 120 },
-        9: { cellWidth: 120 },
-        10: { cellWidth: 120 }
+        7: { cellWidth: 140 },
+        8: { cellWidth: 140 },
+        9: { cellWidth: 140 },
+        10: { cellWidth: 140 }
       }
     });
 
