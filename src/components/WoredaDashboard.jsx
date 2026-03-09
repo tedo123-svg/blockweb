@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut, Plus, FileText, Eye } from 'lucide-react';
+import { LogOut, Plus, FileText, Eye, Menu } from 'lucide-react';
 import ReportForm from './ReportForm';
 import ReportDetailModal from './ReportDetailModal';
 import LanguageToggle from './LanguageToggle';
@@ -11,6 +11,7 @@ function WoredaDashboard({ user, token, onLogout }) {
   const [showForm, setShowForm] = useState(false);
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -37,21 +38,33 @@ function WoredaDashboard({ user, token, onLogout }) {
   return (
     <div>
       <div className="navbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <img 
-            src="/logo.svg" 
-            alt="Logo" 
-            style={{ 
-              height: '50px', 
-              width: '50px', 
-              objectFit: 'contain'
-            }} 
-          />
-          <h1>{t('woreda_reporting_system')}</h1>
+        <div className="navbar-brand">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <img 
+              src="/logo.svg" 
+              alt="Logo" 
+              style={{ 
+                height: '50px', 
+                width: '50px', 
+                objectFit: 'contain'
+              }} 
+            />
+            <h1>{t('woreda_reporting_system')}</h1>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+
+        <button
+          className="navbar-toggle"
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div className={`navbar-items ${mobileMenuOpen ? 'open' : ''}`}>
           <LanguageToggle />
-          <span style={{ color: '#64748b' }}>{user.woredaName}</span>
+          <span className="navbar-user">{user.woredaName}</span>
           <button onClick={onLogout} className="btn btn-secondary">
             <LogOut size={16} style={{ marginRight: '8px', display: 'inline' }} />
             {t('logout')}
@@ -77,39 +90,40 @@ function WoredaDashboard({ user, token, onLogout }) {
                   <p>{t('no_reports_yet')}</p>
                 </div>
               ) : (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>{t('date')}</th>
-                      <th>{t('topic')}</th>
-                      <th>{t('location')}</th>
-                      <th>{t('participants')}</th>
-                      <th>{t('submitted')}</th>
-                      <th>{t('actions')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reports.map(report => (
-                      <tr key={report.id}>
-                        <td><DateDisplay date={report.discussionDate} /></td>
-                        <td>{report.mainTopic}</td>
-                        <td>{report.location}</td>
-                        <td>{report.totalParticipants}</td>
-                        <td><DateDisplay date={report.submittedAt} format="long" /></td>
-                        <td>
-                          <button
-                            onClick={() => setSelectedReport(report)}
-                            className="btn btn-primary"
-                            style={{ padding: '6px 12px', fontSize: '13px' }}
-                          >
-                            <Eye size={14} style={{ marginRight: '4px', display: 'inline' }} />
-                            {t('view')}
-                          </button>
-                        </td>
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>{t('date')}</th>
+                        <th>{t('topic')}</th>
+                        <th>{t('location')}</th>
+                        <th>{t('participants')}</th>
+                        <th>{t('submitted')}</th>
+                        <th>{t('actions')}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {reports.map(report => (
+                        <tr key={report.id}>
+                          <td><DateDisplay date={report.discussionDate} /></td>
+                          <td>{report.mainTopic}</td>
+                          <td>{report.location}</td>
+                          <td>{report.totalParticipants}</td>
+                          <td><DateDisplay date={report.submittedAt} format="long" /></td>
+                          <td>
+                            <button
+                              onClick={() => setSelectedReport(report)}
+                              className="btn btn-primary btn-table"
+                            >
+                              <Eye size={14} style={{ marginRight: '4px', display: 'inline' }} />
+                              {t('view')}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </>

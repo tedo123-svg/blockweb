@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut, Download, Filter, BarChart3, Users, MessageSquare, UserCog, FileText, X, Eye } from 'lucide-react';
+import { LogOut, Download, Filter, BarChart3, Users, MessageSquare, UserCog, FileText, X, Eye, Menu } from 'lucide-react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -18,6 +18,7 @@ function SubCityDashboard({ user, token, onLogout }) {
   const [filters, setFilters] = useState({ startDate: '', endDate: '', topic: '', woreda: '', subCity: '' });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -131,21 +132,33 @@ function SubCityDashboard({ user, token, onLogout }) {
   return (
     <div>
       <div className="navbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <img 
-            src="/logo.svg" 
-            alt="Logo" 
-            style={{ 
-              height: '50px', 
-              width: '50px', 
-              objectFit: 'contain'
-            }} 
-          />
-          <h1>{t('sub_city_dashboard')}</h1>
+        <div className="navbar-brand">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <img 
+              src="/logo.svg" 
+              alt="Logo" 
+              style={{ 
+                height: '50px', 
+                width: '50px', 
+                objectFit: 'contain'
+              }} 
+            />
+            <h1>{t('sub_city_dashboard')}</h1>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+
+        <button
+          className="navbar-toggle"
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div className={`navbar-items ${mobileMenuOpen ? 'open' : ''}`}>
           <LanguageToggle />
-          <span style={{ color: '#64748b' }}>{t('administrator')}</span>
+          <span className="navbar-user">{t('administrator')}</span>
           <button onClick={onLogout} className="btn btn-secondary">
             <LogOut size={16} style={{ marginRight: '8px', display: 'inline' }} />
             {t('logout')}
