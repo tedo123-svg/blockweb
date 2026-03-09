@@ -68,9 +68,9 @@ function SubCityDashboard({ user, token, onLogout }) {
   };
 
   const loadEthiopicFont = async () => {
-    // Try to fetch a font that supports Ethiopic characters. This is required for Amharic.
-    // We use a Google Fonts CDN URL for Noto Sans Ethiopic.
-    const fontUrl = 'https://fonts.gstatic.com/s/notosansethiopic/v12/xn7ZkdCkF_kSgXb2i9K3eV2ZcQ.ttf';
+    // Load the embedded Ethiopic font from the public folder.
+    // The file is stored in public/fonts so it is served as a static asset.
+    const fontUrl = '/fonts/GeezNotoSans-Regular.ttf';
 
     try {
       const res = await fetch(fontUrl);
