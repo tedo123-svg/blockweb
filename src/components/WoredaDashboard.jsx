@@ -5,6 +5,7 @@ import ReportDetailModal from './ReportDetailModal';
 import LanguageToggle from './LanguageToggle';
 import DateDisplay from './DateDisplay';
 import { useLanguage } from '../contexts/LanguageContext';
+import { API_URL } from '../config/api';
 
 function WoredaDashboard({ user, token, onLogout }) {
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +19,7 @@ function WoredaDashboard({ user, token, onLogout }) {
 
   const fetchReports = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/reports', {
+      const response = await fetch(`${API_URL}/api/reports`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Calendar, MapPin, User, Users, FileText, Lightbulb, AlertCircle, CheckSquare, Paperclip } from 'lucide-react';
+import { API_URL } from '../config/api';
 
 function ReportDetailModal({ report, onClose }) {
   if (!report) return null;
@@ -225,9 +226,9 @@ function ReportDetailModal({ report, onClose }) {
                       border: '1px solid #e2e8f0'
                     }}>
                       {isImage ? (
-                        <a href={`http://localhost:5000/uploads/${file}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`${API_URL}/uploads/${file}`} target="_blank" rel="noopener noreferrer">
                           <img
-                            src={`http://localhost:5000/uploads/${file}`}
+                            src={`${API_URL}/uploads/${file}`}
                             alt={`Attachment ${index + 1}`}
                             style={{
                               width: '100%',
@@ -239,7 +240,7 @@ function ReportDetailModal({ report, onClose }) {
                         </a>
                       ) : (
                         <a
-                          href={`http://localhost:5000/uploads/${file}`}
+                          href={`${API_URL}/uploads/${file}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{

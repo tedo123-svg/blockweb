@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Save, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import EthiopianDatePicker from './EthiopianDatePicker';
+import { API_URL } from '../config/api';
 
 function ReportForm({ user, token, onSubmit, onCancel }) {
   const { t } = useLanguage();
@@ -38,7 +39,7 @@ function ReportForm({ user, token, onSubmit, onCancel }) {
     files.forEach(file => data.append('attachments', file));
 
     try {
-      const response = await fetch('http://localhost:5000/api/reports', {
+      const response = await fetch(`${API_URL}/api/reports`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: data

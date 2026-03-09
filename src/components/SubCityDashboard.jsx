@@ -9,6 +9,7 @@ import ReportDetailModal from './ReportDetailModal';
 import LanguageToggle from './LanguageToggle';
 import DateDisplay from './DateDisplay';
 import { useLanguage } from '../contexts/LanguageContext';
+import { API_URL } from '../config/api';
 
 function SubCityDashboard({ user, token, onLogout }) {
   const [activeTab, setActiveTab] = useState('reports');
@@ -29,7 +30,7 @@ function SubCityDashboard({ user, token, onLogout }) {
       const params = new URLSearchParams(
         Object.entries(filters).filter(([_, v]) => v !== '')
       );
-      const response = await fetch(`http://localhost:5000/api/reports?${params}`, {
+      const response = await fetch(`${API_URL}/api/reports?${params}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -41,7 +42,7 @@ function SubCityDashboard({ user, token, onLogout }) {
 
   const fetchStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/statistics', {
+      const response = await fetch(`${API_URL}/api/statistics`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();

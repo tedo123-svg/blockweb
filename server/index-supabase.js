@@ -20,7 +20,16 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY || 'your-service-role-key'
 );
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://localhost:3000', 
+    /\.netlify\.app$/,
+    /\.vercel\.app$/,
+    /\.github\.io$/
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
