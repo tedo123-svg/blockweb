@@ -1,0 +1,36 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle with gold border -->
+  <circle cx="100" cy="100" r="98" fill="#2563EB" stroke="#FCD34D" stroke-width="4"/>
+  
+  <!-- Inner circle -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#60A5FA" stroke-width="2"/>
+  
+  <!-- Building base -->
+  <rect x="60" y="110" width="80" height="40" fill="white" rx="2"/>
+  
+  <!-- Building details -->
+  <rect x="65" y="115" width="10" height="30" fill="#2563EB" opacity="0.3"/>
+  <rect x="80" y="115" width="10" height="30" fill="#2563EB" opacity="0.3"/>
+  <rect x="110" y="115" width="10" height="30" fill="#2563EB" opacity="0.3"/>
+  <rect x="125" y="115" width="10" height="30" fill="#2563EB" opacity="0.3"/>
+  
+  <!-- Flag pole -->
+  <rect x="98" y="80" width="4" height="30" fill="white"/>
+  
+  <!-- Dove wings -->
+  <path d="M 100 70 Q 80 60 70 65 Q 75 70 100 75 Z" fill="white"/>
+  <path d="M 100 70 Q 120 60 130 65 Q 125 70 100 75 Z" fill="white"/>
+  
+  <!-- Dove body -->
+  <ellipse cx="100" cy="72" rx="8" ry="10" fill="white"/>
+  
+  <!-- Olive branch -->
+  <path d="M 105 72 L 115 70 M 108 73 L 113 72 M 110 75 L 115 74" stroke="#22C55E" stroke-width="1.5" fill="none"/>
+  
+  <!-- Top text -->
+  <text x="100" y="30" text-anchor="middle" fill="white" font-size="12" font-weight="bold">PEACE AND SECURITY</text>
+  
+  <!-- Bottom text -->
+  <text x="100" y="175" text-anchor="middle" fill="white" font-size="10" font-weight="bold">ADDIS ABABA CITY</text>
+  <text x="100" y="188" text-anchor="middle" fill="white" font-size="9">ADMINISTRATION BUREAU</text>
+</svg>
