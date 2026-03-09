@@ -390,7 +390,7 @@ function SubCityDashboard({ user, token, onLogout }) {
                 </div>
               )}
 
-              <div style={{ overflowX: 'auto' }}>
+              <div className="table-responsive">
                 <table className="table">
                   <thead>
                     <tr>

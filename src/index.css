@@ -143,9 +143,17 @@ body {
   opacity: 0.9;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 12px;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
 .table th,
@@ -153,6 +161,7 @@ body {
   padding: 14px;
   text-align: left;
   border-bottom: 1px solid rgba(15, 118, 110, 0.16);
+  font-size: 13px;
 }
 
 .table th {
@@ -256,12 +265,43 @@ body {
 }
 
 /* Helpers for smaller screens */
+@media (max-width: 840px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .navbar h1 {
+    font-size: 20px;
+  }
+
+  .navbar > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table {
+    min-width: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .card {
-    padding: 20px;
+    padding: 18px;
   }
 
   .navbar {
     padding: 14px 18px;
+  }
+
+  .login-card {
+    width: 90%;
+  }
+
+  .login-header h2 {
+    font-size: 20px;
   }
 }
