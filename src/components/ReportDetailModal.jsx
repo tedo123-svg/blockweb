@@ -216,8 +216,9 @@ function ReportDetailModal({ report, onClose }) {
                 Attachments ({report.attachments.length})
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-                {report.attachments.map((file, index) => {
-                  const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(file);
+                {report.attachments.map((url, index) => {
+                  const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+                  const fileName = url.split('/').pop();
                   return (
                     <div key={index} style={{
                       background: '#f8fafc',
@@ -226,9 +227,9 @@ function ReportDetailModal({ report, onClose }) {
                       border: '1px solid #e2e8f0'
                     }}>
                       {isImage ? (
-                        <a href={`${API_URL}/uploads/${file}`} target="_blank" rel="noopener noreferrer">
+                        <a href={url} target="_blank" rel="noopener noreferrer">
                           <img
-                            src={`${API_URL}/uploads/${file}`}
+                            src={url}
                             alt={`Attachment ${index + 1}`}
                             style={{
                               width: '100%',
@@ -240,7 +241,7 @@ function ReportDetailModal({ report, onClose }) {
                         </a>
                       ) : (
                         <a
-                          href={`${API_URL}/uploads/${file}`}
+                          href={url}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -256,7 +257,7 @@ function ReportDetailModal({ report, onClose }) {
                         >
                           <Paperclip size={32} />
                           <div style={{ fontSize: '12px', marginTop: '8px', textAlign: 'center', wordBreak: 'break-all' }}>
-                            {file.substring(file.indexOf('-') + 1)}
+                            {fileName}
                           </div>
                         </a>
                       )}

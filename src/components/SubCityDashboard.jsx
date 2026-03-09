@@ -92,7 +92,7 @@ function SubCityDashboard({ user, token, onLogout }) {
   };
 
   const exportToPDF = async () => {
-    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const doc = new jsPDF({ unit: 'pt', format: 'a4', orientation: 'landscape' });
     const title = 'Woreda Discussion Reports';
     const generatedAt = `Generated: ${new Date().toLocaleDateString()}`;
 
@@ -141,7 +141,7 @@ function SubCityDashboard({ user, token, onLogout }) {
       ]],
       body: tableData,
       startY: 72,
-      margin: { left: 40, right: 40 },
+      margin: { left: 20, right: 20 },
       styles: {
         font: 'NotoSansEthiopic',
         fontSize: 8,
