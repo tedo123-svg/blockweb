@@ -49,9 +49,11 @@ const authenticate = (req, res, next) => {
 // Routes
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
+  console.log('[LOGIN ATTEMPT]', username, password);
   const user = users.find(u => u.username === username);
   
   if (!user || !bcrypt.compareSync(password, user.password)) {
+    console.log('[LOGIN FAILED]', username);
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   
