@@ -68,29 +68,61 @@ function SubCityDashboard({ user, token, onLogout }) {
   };
 
   const exportToPDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const title = 'Woreda Discussion Reports';
+    const generatedAt = `Generated: ${new Date().toLocaleDateString()}`;
+
     doc.setFontSize(18);
-    doc.text('Woreda Discussion Reports', 14, 20);
+    doc.text(title, 40, 40);
     doc.setFontSize(10);
-    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 28);
-    
-    const tableData = reports.map(r => [
+    doc.text(generatedAt, 40, 58);
+
+    const tableData = reports.map(r => ([
       r.woredaName,
       r.subCity || 'N/A',
       r.discussionDate,
       r.mainTopic,
-      r.totalParticipants,
-      r.maleParticipants,
-      r.femaleParticipants
-    ]);
+      `${r.totalParticipants}`,
+      `${r.maleParticipants}`,
+      `${r.femaleParticipants}`,
+      r.description || '-',
+      r.positiveIdeas || '-',
+      r.negativeIssues || '-',
+      r.recommendations || '-'
+    ]));
 
     doc.autoTable({
-      head: [['Woreda', 'Sub-City', 'Date', 'Topic', 'Total', 'Male', 'Female']],
+      head: [[
+        'Woreda',
+        'Sub-City',
+        'Date',
+        'Topic',
+        'Total',
+        'Male',
+        'Female',
+        'Description',
+        'Positive Ideas',
+        'Negative Issues',
+        'Recommendations'
+      ]],
       body: tableData,
-      startY: 35,
-      styles: { fontSize: 8 },
-      headStyles: { fillColor: [30, 64, 175] }
+      startY: 72,
+      styles: { fontSize: 8, cellPadding: 6, overflow: 'linebreak', halign: 'left' },
+      headStyles: { fillColor: [16, 185, 129], textColor: 255 },
+      bodyStyles: { textColor: 30 },
+      theme: 'grid',
+      columnStyles: {
+        7: { cellWidth: 120 },
+        8: { cellWidth: 120 },
+        9: { cellWidth: 120 },
+        10: { cellWidth: 120 }
+      }
     });
+
+    // NOTE: jsPDF's default fonts do not support Amharic characters. If your data includes
+    // Amharic text, the PDF output will not render those characters. In that case, use
+    // the "Export to Excel" option (which supports Unicode) or replace the font with
+    // a font that includes Ethiopic glyphs.
 
     doc.save(`reports-${new Date().toISOString().split('T')[0]}.pdf`);
   };
