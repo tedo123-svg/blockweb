@@ -67,10 +67,41 @@ function SubCityDashboard({ user, token, onLogout }) {
     setTimeout(() => fetchReports(), 100);
   };
 
-  const exportToPDF = () => {
+  const loadEthiopicFont = async () => {
+    // Try to fetch a font that supports Ethiopic characters. This is required for Amharic.
+    // We use a Google Fonts CDN URL for Noto Sans Ethiopic.
+    const fontUrl = 'https://fonts.gstatic.com/s/notosansethiopic/v12/xn7ZkdCkF_kSgXb2i9K3eV2ZcQ.ttf';
+
+    try {
+      const res = await fetch(fontUrl);
+      if (!res.ok) throw new Error('Font download failed');
+
+      const arrayBuffer = await res.arrayBuffer();
+      let binary = '';
+      const bytes = new Uint8Array(arrayBuffer);
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+      }
+
+      return btoa(binary);
+    } catch (err) {
+      console.warn('Unable to load Ethiopic font for PDF export:', err);
+      return null;
+    }
+  };
+
+  const exportToPDF = async () => {
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });
     const title = 'Woreda Discussion Reports';
     const generatedAt = `Generated: ${new Date().toLocaleDateString()}`;
+
+    const fontBase64 = await loadEthiopicFont();
+    if (fontBase64) {
+      doc.addFileToVFS('NotoSansEthiopic.ttf', fontBase64);
+      doc.addFont('NotoSansEthiopic.ttf', 'NotoSansEthiopic', 'normal');
+      doc.setFont('NotoSansEthiopic');
+    }
 
     doc.setFontSize(18);
     doc.text(title, 40, 40);
@@ -133,11 +164,6 @@ function SubCityDashboard({ user, token, onLogout }) {
         10: { cellWidth: 120 }
       }
     });
-
-    // NOTE: jsPDF's default fonts do not support Amharic characters. If your data includes
-    // Amharic text, the PDF output will not render those characters. In that case, use
-    // the "Export to Excel" option (which supports Unicode) or replace the font with
-    // a font that includes Ethiopic glyphs.
 
     doc.save(`reports-${new Date().toISOString().split('T')[0]}.pdf`);
   };
