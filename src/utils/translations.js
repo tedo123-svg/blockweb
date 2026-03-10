@@ -10,6 +10,7 @@ export const translations = {
     'sign_in': 'Sign In',
     'invalid_credentials': 'Invalid credentials',
     'logout': 'Logout',
+    'change_password': 'Change Password',
     
     // Dashboard
     'sub_city_dashboard': 'Sub-City Dashboard',
@@ -107,6 +108,7 @@ export const translations = {
     'sign_in': 'ግባ',
     'invalid_credentials': 'ልክ ያልሆነ መግቢያ',
     'logout': 'ውጣ',
+    'change_password': 'የይለፍ ቃል ቀይር',
     
     // Dashboard
     'sub_city_dashboard': 'የክፍለ ከተማ ዳሽቦርድ',

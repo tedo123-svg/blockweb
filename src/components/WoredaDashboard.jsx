@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LogOut, Plus, FileText, Eye, Menu } from 'lucide-react';
 import ReportForm from './ReportForm';
 import ReportDetailModal from './ReportDetailModal';
+import ChangePasswordModal from './ChangePasswordModal';
 import LanguageToggle from './LanguageToggle';
 import DateDisplay from './DateDisplay';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -12,6 +13,7 @@ function WoredaDashboard({ user, token, onLogout }) {
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -65,6 +67,9 @@ function WoredaDashboard({ user, token, onLogout }) {
         <div className={`navbar-items ${mobileMenuOpen ? 'open' : ''}`}>
           <LanguageToggle />
           <span className="navbar-user">{user.woredaName}</span>
+          <button onClick={() => setShowPasswordModal(true)} className="btn btn-secondary">
+            🔒 {t('change_password')}
+          </button>
           <button onClick={onLogout} className="btn btn-secondary">
             <LogOut size={16} style={{ marginRight: '8px', display: 'inline' }} />
             {t('logout')}
@@ -140,7 +145,20 @@ function WoredaDashboard({ user, token, onLogout }) {
       {selectedReport && (
         <ReportDetailModal
           report={selectedReport}
+          user={user}
+          token={token}
           onClose={() => setSelectedReport(null)}
+          onDelete={() => {
+            setSelectedReport(null);
+            fetchReports();
+          }}
+        />
+      )}
+
+      {showPasswordModal && (
+        <ChangePasswordModal
+          token={token}
+          onClose={() => setShowPasswordModal(false)}
         />
       )}
     </div>

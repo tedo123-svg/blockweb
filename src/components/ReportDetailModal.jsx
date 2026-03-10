@@ -1,9 +1,37 @@
-import React from 'react';
-import { X, Calendar, MapPin, User, Users, FileText, Lightbulb, AlertCircle, CheckSquare, Paperclip } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Calendar, MapPin, User, Users, FileText, Lightbulb, AlertCircle, CheckSquare, Paperclip, Trash2 } from 'lucide-react';
 import { API_URL } from '../config/api';
 
-function ReportDetailModal({ report, onClose }) {
+function ReportDetailModal({ report, user, token, onClose, onDelete }) {
   if (!report) return null;
+
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirm('Are you sure you want to delete this report?')) return;
+
+    setDeleting(true);
+    try {
+      const response = await fetch(`${API_URL}/api/reports/${report.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        onDelete?.();
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to delete report');
+      }
+    } catch (error) {
+      console.error('Failed to delete report:', error);
+      alert('Failed to delete report');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <div style={{
@@ -44,6 +72,26 @@ function ReportDetailModal({ report, onClose }) {
             <h2 style={{ margin: '0 0 8px 0', fontSize: '24px' }}>{report.mainTopic}</h2>
             <p style={{ margin: 0, opacity: 0.9 }}>{report.woredaName} - {report.subCity || 'N/A'}</p>
           </div>
+          {user?.role === 'woreda' && user?.username === report.submittedBy && (
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '8px',
+                cursor: 'pointer',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '8px'
+              }}
+            >
+              <Trash2 size={20} />
+            </button>
+          )}
           <button
             onClick={onClose}
             style={{
