@@ -173,23 +173,29 @@ function SubCityDashboard({ user, token, onLogout }) {
   };
 
   const exportToWord = () => {
-    const rows = reports.map(r => (
-      `<tr>
-        <td>${r.woredaName}</td>
-        <td>${r.subCity || 'N/A'}</td>
-        <td>${r.discussionDate}</td>
-        <td>${r.location}</td>
-        <td>${r.facilitatorName}</td>
-        <td>${r.mainTopic}</td>
-        <td>${r.totalParticipants}</td>
-        <td>${r.maleParticipants}</td>
-        <td>${r.femaleParticipants}</td>
-        <td>${(r.description || '').replace(/\n/g, '<br/>')}</td>
-        <td>${(r.positiveIdeas || '').replace(/\n/g, '<br/>')}</td>
-        <td>${(r.negativeIssues || '').replace(/\n/g, '<br/>')}</td>
-        <td>${(r.recommendations || '').replace(/\n/g, '<br/>')}</td>
-      </tr>`
-    )).join('');
+    const reportSections = reports.map((r, index) => {
+      const safeText = (text) => (text || '').replace(/\n/g, '<br/>');
+
+      return `
+        <section style="margin-bottom: 24px;">
+          <h2 style="margin: 0 0 8px 0; font-size: 18px;">Report ${index + 1}: ${r.mainTopic || 'Untitled'}</h2>
+          <div style="font-size: 14px; line-height: 1.5;">
+            <p><strong>Woreda:</strong> ${r.woredaName}</p>
+            <p><strong>Sub-City:</strong> ${r.subCity || 'N/A'}</p>
+            <p><strong>Date:</strong> ${r.discussionDate}</p>
+            <p><strong>Location:</strong> ${r.location}</p>
+            <p><strong>Facilitator:</strong> ${r.facilitatorName}</p>
+            <p><strong>Total Participants:</strong> ${r.totalParticipants}</p>
+            <p><strong>Male:</strong> ${r.maleParticipants}</p>
+            <p><strong>Female:</strong> ${r.femaleParticipants}</p>
+            <p><strong>Description:</strong><br/>${safeText(r.description)}</p>
+            <p><strong>Positive Ideas:</strong><br/>${safeText(r.positiveIdeas)}</p>
+            <p><strong>Negative Issues:</strong><br/>${safeText(r.negativeIssues)}</p>
+            <p><strong>Recommendations:</strong><br/>${safeText(r.recommendations)}</p>
+          </div>
+        </section>
+      `;
+    }).join('');
 
     const html = `<!DOCTYPE html>
 <html>
@@ -197,36 +203,17 @@ function SubCityDashboard({ user, token, onLogout }) {
 <meta charset="utf-8">
 <title>Reports</title>
 <style>
-  table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; }
-  th, td { border: 1px solid #ddd; padding: 8px; }
-  th { background: #1e40af; color: #fff; }
+  body { font-family: Arial, sans-serif; margin: 24px; }
+  h1 { font-size: 24px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin: 16px 0 8px; }
+  p { margin: 4px 0; }
+  strong { font-weight: 600; }
 </style>
 </head>
 <body>
   <h1>Woreda Discussion Reports</h1>
   <p>Generated: ${new Date().toLocaleDateString()}</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Woreda</th>
-        <th>Sub-City</th>
-        <th>Date</th>
-        <th>Location</th>
-        <th>Facilitator</th>
-        <th>Topic</th>
-        <th>Total</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Description</th>
-        <th>Positive Ideas</th>
-        <th>Negative Issues</th>
-        <th>Recommendations</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${rows}
-    </tbody>
-  </table>
+  ${reportSections}
 </body>
 </html>`;
 
