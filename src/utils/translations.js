@@ -32,6 +32,7 @@ export const translations = {
     'apply_filters': 'Apply Filters',
     'clear_all': 'Clear All',
     'export_pdf': 'Export PDF',
+    'export_word': 'Export Word',
     'export_excel': 'Export Excel',
     
     // Report Form
@@ -130,6 +131,7 @@ export const translations = {
     'apply_filters': 'ማጣሪያዎችን ተግብር',
     'clear_all': 'ሁሉንም አጽዳ',
     'export_pdf': 'PDF አውጣ',
+    'export_word': 'Word አውጣ',
     'export_excel': 'Excel አውጣ',
     
     // Report Form

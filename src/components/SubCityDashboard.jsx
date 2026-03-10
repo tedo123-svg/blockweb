@@ -172,6 +172,75 @@ function SubCityDashboard({ user, token, onLogout }) {
     doc.save(`reports-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
+  const exportToWord = () => {
+    const rows = reports.map(r => (
+      `<tr>
+        <td>${r.woredaName}</td>
+        <td>${r.subCity || 'N/A'}</td>
+        <td>${r.discussionDate}</td>
+        <td>${r.location}</td>
+        <td>${r.facilitatorName}</td>
+        <td>${r.mainTopic}</td>
+        <td>${r.totalParticipants}</td>
+        <td>${r.maleParticipants}</td>
+        <td>${r.femaleParticipants}</td>
+        <td>${(r.description || '').replace(/\n/g, '<br/>')}</td>
+        <td>${(r.positiveIdeas || '').replace(/\n/g, '<br/>')}</td>
+        <td>${(r.negativeIssues || '').replace(/\n/g, '<br/>')}</td>
+        <td>${(r.recommendations || '').replace(/\n/g, '<br/>')}</td>
+      </tr>`
+    )).join('');
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Reports</title>
+<style>
+  table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; }
+  th, td { border: 1px solid #ddd; padding: 8px; }
+  th { background: #1e40af; color: #fff; }
+</style>
+</head>
+<body>
+  <h1>Woreda Discussion Reports</h1>
+  <p>Generated: ${new Date().toLocaleDateString()}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Woreda</th>
+        <th>Sub-City</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Facilitator</th>
+        <th>Topic</th>
+        <th>Total</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Description</th>
+        <th>Positive Ideas</th>
+        <th>Negative Issues</th>
+        <th>Recommendations</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+    </tbody>
+  </table>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `reports-${new Date().toISOString().split('T')[0]}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const exportToExcel = () => {
     const exportData = reports.map(r => ({
       'Woreda': r.woredaName,
@@ -396,11 +465,15 @@ function SubCityDashboard({ user, token, onLogout }) {
                   </button>
                   <button onClick={exportToPDF} className="btn btn-secondary">
                     <Download size={16} style={{ marginRight: '8px', display: 'inline' }} />
-                    PDF
+                    {t('export_pdf')}
+                  </button>
+                  <button onClick={exportToWord} className="btn btn-secondary">
+                    <Download size={16} style={{ marginRight: '8px', display: 'inline' }} />
+                    {t('export_word')}
                   </button>
                   <button onClick={exportToExcel} className="btn btn-primary">
                     <Download size={16} style={{ marginRight: '8px', display: 'inline' }} />
-                    Excel
+                    {t('export_excel')}
                   </button>
                 </div>
               </div>
